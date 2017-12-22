@@ -25,6 +25,7 @@ export const createImageProgress = ImageComponent =>
       source: PropTypes.any,
       style: PropTypes.any,
       threshold: PropTypes.number.isRequired,
+      imageStyle: PropTypes.any,
     };
 
     static defaultProps = {
@@ -155,13 +156,18 @@ export const createImageProgress = ImageComponent =>
         source,
         style,
         threshold,
+        imageStyle,
         ...props
       } = this.props;
 
       if (!source || !source.uri) {
         // This is not a networked asset so fallback to regular image
         return (
-          <ImageComponent source={source} style={style} {...props}>
+          <ImageComponent
+            source={source}
+            style={[style, imageStyle]}
+            {...props}
+          >
             {children}
           </ImageComponent>
         );
@@ -180,9 +186,8 @@ export const createImageProgress = ImageComponent =>
         if (renderIndicator) {
           indicatorElement = renderIndicator(progress, !loading || !progress);
         } else {
-          const IndicatorComponent = typeof indicator === 'function'
-            ? indicator
-            : DefaultIndicator;
+          const IndicatorComponent =
+            typeof indicator === 'function' ? indicator : DefaultIndicator;
           indicatorElement = (
             <IndicatorComponent
               progress={progress}
@@ -206,7 +211,7 @@ export const createImageProgress = ImageComponent =>
             onError={this.handleError}
             onLoad={this.handleLoad}
             source={source}
-            style={StyleSheet.absoluteFill}
+            style={[StyleSheet.absoluteFill, imageStyle]}
           />
           {indicatorElement}
           {children}

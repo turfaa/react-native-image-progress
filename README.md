@@ -1,10 +1,18 @@
-# react-native-image-progress [![npm version](https://img.shields.io/npm/v/react-native-image-progress.svg?style=flat)](https://www.npmjs.com/package/react-native-image-progress)
-*Progress indicator for networked images in React Native*
+# react-native-styled-image-progress [![npm version](https://img.shields.io/npm/v/react-native-styled-image-progress.svg?style=flat)](https://www.npmjs.com/package/react-native-styled-image-progress)
+*Progress indicator for networked images in React Native, supporting styled image*
+
+## Notes from Turfa
+
+On my current project, I need to use this package on a circled image. Instead of doing some hacks,
+I decided to edit the package myself for a more general usage. So here it comes.
+
+I don't edit this readme much. Basically, if you want to add style to your image component,
+just pass the style as `imageStyle` props.
 
 ## Installation
 
 ```
-yarn add react-native-image-progress
+npm install react-native-styled-image-progress --save
 ```
 
 **Note: Progress indicators has been broken out to a separate component; [react-native-progress](https://github.com/oblador/react-native-progress). To use them, please follow installation instructions for that package.**
@@ -15,12 +23,12 @@ yarn add react-native-image-progress
 ```js
 import Image from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar';
-<Image 
-  source={{ uri: 'http://loremflickr.com/640/480/dog' }} 
-  indicator={ProgressBar} 
+<Image
+  source={{ uri: 'http://loremflickr.com/640/480/dog' }}
+  indicator={ProgressBar}
   style={{
-    width: 320, 
-    height: 240, 
+    width: 320,
+    height: 240,
   }}/>
 ```
 
@@ -30,29 +38,29 @@ Any [`Image` property](http://facebook.github.io/react-native/docs/image.html) a
 
 | Prop | Description | Default |
 |---|---|---|
-|**`indicator`**|A component to display progress, will be passed a `progress` prop with a number between 0 and 1 and `indeterminate` a boolean wether or not component has started recieveing data.|`ActivityIndicator`|
+|**`indicator`**|A component to display progress, will be passed a `progress` prop with a number between 0 and 1 and `indeterminate` a boolean wether or not component has started receiving data.|`ActivityIndicator`|
 |**`indicatorProps`**|An object of props being passed to the `indicator` component. To disable indeterminate state, pass `{indeterminate: false}`.|*None*|
 |**`renderIndicator(progress, indeterminate)`**|Function to render your own custom indicator, useful for something very simple. If not, consider breaking it out to a separate component and use `indicator` prop instead.|*None*|
 |**`renderError(error)`**|Function to render your own custom error message or image fallback.|*None*|
 |**`threshold`**|Number of milliseconds after mount to wait before displaying the indicator. Basically a workaround for cached images not to flash a spinner. Set to `0` to disable.|`50`|
 
-Note: `onLoad*` events are bubbled up, so if you want to do some custom thing when the image is loaded for example. 
+Note: `onLoad*` events are bubbled up, so if you want to do some custom thing when the image is loaded for example.
 
 ## Demo
 
 ![image-progress-demo](https://cloud.githubusercontent.com/assets/378279/10882718/0f33e7b4-813b-11e5-9f6c-90df8b9050b8.gif)
 
-## Example 
+## Example
 
-Check full example in the `Example` folder. 
+Check full example in the `Example` folder.
 
 ### Pie
 
 ```js
 import Image from 'react-native-image-progress';
 import Progress from 'react-native-progress';
-<Image 
-  source={{ uri: 'http://loremflickr.com/640/480/dog' }} 
+<Image
+  source={{ uri: 'http://loremflickr.com/640/480/dog' }}
   indicator={Progress.Pie}
   indicatorProps={{
     size: 80,
@@ -68,18 +76,17 @@ import Progress from 'react-native-progress';
 
 ## Using a custom image component
 
-For some use cases such as better GIF support or more granular control over caching you might want to use a custom image component, to do this simply use the `createImageProgress` function: 
+For some use cases such as better GIF support or more granular control over caching you might want to use a custom image component, to do this simply use the `createImageProgress` function:
 
 ```js
 import { createImageProgress } from 'react-native-image-progress';
 import FastImage from 'react-native-fast-image';
 
 const Image = createImageProgress(FastImage);
-``` 
+```
 
 *NOTE: the alternative image implementation must conform to the core `Image` component life cycle props, notably `onProgress`, `onError`, `onLoad` and `onLoadStart`.*
 
 ## License
 
 [MIT License](http://opensource.org/licenses/mit-license.html). © Joel Arvidsson
-
